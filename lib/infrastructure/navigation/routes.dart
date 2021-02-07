@@ -5,4 +5,5 @@ class Routes {
   }
 
   static const HOME = '/home';
+  static const PRODUCT_LIST = '/product-list';
 }

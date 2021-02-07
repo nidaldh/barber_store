@@ -1,3 +1,4 @@
+import 'package:barbers_store/presentation/home/product_list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +9,9 @@ import 'routes.dart';
 
 class EnvironmentsBadge extends StatelessWidget {
   final Widget child;
+
   EnvironmentsBadge({@required this.child});
+
   @override
   Widget build(BuildContext context) {
     var env = ConfigEnvironments.getEnvironments()['env'];
@@ -29,5 +32,6 @@ class Nav {
         name: Routes.HOME,
         page: () => HomeScreen(),
         binding: HomeControllerBinding()),
+    GetPage(name: Routes.PRODUCT_LIST, page: () => ProductListScreen()),
   ];
 }
