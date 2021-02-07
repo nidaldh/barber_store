@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "619170243218",
+    "project_id": "barber-store-b135f",
+    "storage_bucket": "barber-store-b135f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619170243218:android:8b9b6702bb79aa06103c4b",
+        "android_client_info": {
+          "package_name": "com.murad.barbers_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619170243218-61jsjc096dkov2a327blsuj552ks36sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSo3yOQOoaQIfnc5Nofl9LIp4ZvxzeqTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619170243218-61jsjc096dkov2a327blsuj552ks36sa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "619170243218-ni4985lrld6s6eqsj957mk3ptn88o0rr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.murad.barbersStore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
