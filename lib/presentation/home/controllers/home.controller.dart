@@ -12,16 +12,22 @@ class HomeController extends GetxController {
   ProductModel product;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   CollectionReference reference;
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController salePriceController = TextEditingController();
-  TextEditingController costPriceController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController barcodeController = TextEditingController();
-  var focusNode = FocusNode();
+  TextEditingController quantityController;
+  TextEditingController salePriceController;
+  TextEditingController costPriceController;
+  TextEditingController nameController;
+  TextEditingController barcodeController;
+  FocusNode nameFocusNode;
 
   @override
   void onInit() {
     reference = _db.collection('product');
+    quantityController = TextEditingController();
+    salePriceController = TextEditingController();
+    costPriceController = TextEditingController();
+    nameController = TextEditingController();
+    barcodeController = TextEditingController();
+    nameFocusNode = FocusNode();
   }
 
   @override
@@ -114,7 +120,7 @@ class HomeController extends GetxController {
       } catch (e) {
         newProduct.value = true;
         product = null;
-        focusNode.requestFocus();
+        nameFocusNode.requestFocus();
         clearInputs();
         if (flag) {
           SnackBarMessage.noProduct();
@@ -123,7 +129,7 @@ class HomeController extends GetxController {
     } else {
       newProduct.value = true;
       product = null;
-      focusNode.requestFocus();
+      nameFocusNode.requestFocus();
       clearInputs();
       if (flag) {
         SnackBarMessage.noProduct();
@@ -140,6 +146,10 @@ class HomeController extends GetxController {
     quantityController.text = product.quantity.toString();
     barcodeController.text = product.barcode;
     newProduct.value = false;
+    FocusScopeNode currentFocus = FocusScope.of(Get.context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.focusedChild?.unfocus();
+    }
   }
 
   void clearInputs() {

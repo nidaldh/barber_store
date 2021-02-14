@@ -21,6 +21,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.focusNode,
       this.obscureText = false,
+      this.autoFocus = false,
       this.minLines = 1,
       this.maxLines,
       this.onChanged,
@@ -35,6 +36,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final FocusNode focusNode;
   final int minLines;
   final int maxLines;
+  final bool autoFocus;
   final void Function(String) onChanged;
   final void Function(String) onSaved;
 
@@ -47,7 +49,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
         labelText: labelText,
       ),
       focusNode: focusNode,
-      autofocus: true,
+      autofocus: autoFocus,
       controller: controller,
       onSaved: onSaved,
       onChanged: onChanged,

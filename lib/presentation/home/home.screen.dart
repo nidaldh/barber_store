@@ -106,7 +106,7 @@ class HomeScreen extends GetView<HomeController> {
                       controller: controller.nameController,
                       iconPrefix: Icons.drive_file_rename_outline,
                       labelText: 'Product Name',
-                      focusNode: controller.focusNode,
+                      focusNode: controller.nameFocusNode,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Please enter product name";
