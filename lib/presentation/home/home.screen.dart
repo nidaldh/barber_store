@@ -106,6 +106,7 @@ class HomeScreen extends GetView<HomeController> {
                       controller: controller.nameController,
                       iconPrefix: Icons.drive_file_rename_outline,
                       labelText: 'Product Name',
+                      focusNode: controller.focusNode,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "Please enter product name";
@@ -228,6 +229,7 @@ class HomeScreen extends GetView<HomeController> {
   }
 
   void _asyncInputDialog(BuildContext context) async {
+    controller.getProduct(controller.barcodeController.text, flag: true);
     int saleQuantity = 0;
     Get.dialog(AlertDialog(
       shape: RoundedRectangleBorder(

@@ -17,6 +17,7 @@ class HomeController extends GetxController {
   TextEditingController costPriceController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController barcodeController = TextEditingController();
+  var focusNode = FocusNode();
 
   @override
   void onInit() {
@@ -112,12 +113,18 @@ class HomeController extends GetxController {
         changeProduct(querySnapshot.data());
       } catch (e) {
         newProduct.value = true;
+        product = null;
+        focusNode.requestFocus();
+        clearInputs();
         if (flag) {
           SnackBarMessage.noProduct();
         }
       }
     } else {
       newProduct.value = true;
+      product = null;
+      focusNode.requestFocus();
+      clearInputs();
       if (flag) {
         SnackBarMessage.noProduct();
       }
@@ -133,5 +140,12 @@ class HomeController extends GetxController {
     quantityController.text = product.quantity.toString();
     barcodeController.text = product.barcode;
     newProduct.value = false;
+  }
+
+  void clearInputs() {
+    nameController.text = '';
+    salePriceController.text = '';
+    costPriceController.text = '';
+    quantityController.text = '';
   }
 }

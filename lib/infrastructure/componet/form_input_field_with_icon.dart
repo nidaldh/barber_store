@@ -19,6 +19,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.labelText,
       this.validator,
       this.keyboardType = TextInputType.text,
+      this.focusNode,
       this.obscureText = false,
       this.minLines = 1,
       this.maxLines,
@@ -31,6 +32,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final String Function(String) validator;
   final TextInputType keyboardType;
   final bool obscureText;
+  final FocusNode focusNode;
   final int minLines;
   final int maxLines;
   final void Function(String) onChanged;
@@ -44,6 +46,8 @@ class FormInputFieldWithIcon extends StatelessWidget {
         prefixIcon: Icon(iconPrefix),
         labelText: labelText,
       ),
+      focusNode: focusNode,
+      autofocus: true,
       controller: controller,
       onSaved: onSaved,
       onChanged: onChanged,

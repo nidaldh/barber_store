@@ -21,7 +21,7 @@ class ProductListScreen extends GetView<HomeController> {
                   linear: true,
                   emptyChild:
                       Scaffold(body: Center(child: Text('noChatYet'.tr))),
-                  query: controller.reference.limit(1000),
+                  query: controller.reference.limit(10000),
                   itemBuilder: (
                     BuildContext context,
                     DocumentSnapshot snapshot,
@@ -32,10 +32,16 @@ class ProductListScreen extends GetView<HomeController> {
                         opacity: animation,
                         child: Card(
                           child: ListTile(
-                            title: Text(snapshot.data().cast()['name'] ?? 'Product Name'),
-                            trailing: Text(snapshot.data().cast()['barcode']?? 'Product Barcode'),
+                            title: Text(snapshot.data().cast()['name'] ??
+                                'Product Name'),
+                            trailing: Text(snapshot.data().cast()['barcode'] ??
+                                'Product Barcode'),
                             subtitle: Text('Quantity: ' +
-                                snapshot.data().cast()['quantity'].toString() ?? 'Product Quantity'),
+                                    snapshot
+                                        .data()
+                                        .cast()['quantity']
+                                        .toString() ??
+                                'Product Quantity'),
                             onTap: () async {
                               controller.changeProduct(snapshot.data());
                               Get.back();
