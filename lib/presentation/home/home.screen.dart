@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
 
   @override
@@ -70,7 +69,7 @@ class HomeScreen extends GetView<HomeController> {
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Form(
-                  key: _formKey,
+                  key: controller.formKey,
                   child: Column(children: <Widget>[
                     Row(
                       children: [
@@ -167,8 +166,8 @@ class HomeScreen extends GetView<HomeController> {
                               ? Text('Add')
                               : Text('Edit')),
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
+                            if (controller.formKey.currentState.validate()) {
+                              controller.formKey.currentState.save();
                               controller.addProduct();
                             }
                           },

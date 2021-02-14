@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   var newProduct = false.obs;
+  final formKey = GlobalKey<FormState>();
   ProductModel product;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   CollectionReference reference;
@@ -150,6 +151,7 @@ class HomeController extends GetxController {
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.focusedChild?.unfocus();
     }
+    formKey.currentState.validate();
   }
 
   void clearInputs() {
