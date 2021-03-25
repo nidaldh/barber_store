@@ -10,7 +10,7 @@ import 'routes.dart';
 class EnvironmentsBadge extends StatelessWidget {
   final Widget child;
 
-  EnvironmentsBadge({@required this.child});
+  EnvironmentsBadge({required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class EnvironmentsBadge extends StatelessWidget {
     return env != Environments.PRODUCTION
         ? Banner(
             location: BannerLocation.topStart,
-            message: env,
+            message: env!,
             color: env == Environments.QAS ? Colors.blue : Colors.purple,
             child: child,
           )

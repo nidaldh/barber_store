@@ -27,18 +27,18 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.onChanged,
       this.onSaved});
 
-  final TextEditingController controller;
-  final IconData iconPrefix;
-  final String labelText;
-  final String Function(String) validator;
+  final TextEditingController? controller;
+  final IconData? iconPrefix;
+  final String? labelText;
+  final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool obscureText;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
   final int minLines;
-  final int maxLines;
+  final int? maxLines;
   final bool autoFocus;
-  final void Function(String) onChanged;
-  final void Function(String) onSaved;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
 
   @override
   Widget build(BuildContext context) {

@@ -4,13 +4,14 @@ part 'product.model.g.dart';
 
 @JsonSerializable()
 class ProductModel {
-  ProductModel(this.barcode,this.name, this.salePrice, this.costPrice, this.quantity);
+  ProductModel(
+      this.barcode, this.name, this.salePrice, this.costPrice, this.quantity);
 
-  String barcode;
-  String name;
-  double salePrice;
-  double costPrice;
-  int quantity;
+  String? barcode;
+  String? name;
+  double? salePrice;
+  double? costPrice;
+  int? quantity;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);

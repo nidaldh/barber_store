@@ -8,11 +8,11 @@ part of 'product.model.dart';
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
   return ProductModel(
-    json['barcode'] as String,
-    json['name'] as String,
-    (json['salePrice'] as num)?.toDouble(),
-    (json['costPrice'] as num)?.toDouble(),
-    json['quantity'] as int,
+    json['barcode'] as String?,
+    json['name'] as String?,
+    (json['salePrice'] as num?)?.toDouble(),
+    (json['costPrice'] as num?)?.toDouble(),
+    json['quantity'] as int?,
   );
 }
 
