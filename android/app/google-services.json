@@ -1,40 +1,84 @@
 {
   "project_info": {
-    "project_number": "619170243218",
-    "project_id": "barber-store-b135f",
-    "storage_bucket": "barber-store-b135f.appspot.com"
+    "project_number": "831036258832",
+    "project_id": "atc-company-ps",
+    "storage_bucket": "atc-company-ps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:619170243218:android:8b9b6702bb79aa06103c4b",
+        "mobilesdk_app_id": "1:831036258832:android:226981e16c4e480ec82895",
         "android_client_info": {
           "package_name": "com.murad.barbers_store"
         }
       },
       "oauth_client": [
         {
-          "client_id": "619170243218-61jsjc096dkov2a327blsuj552ks36sa.apps.googleusercontent.com",
+          "client_id": "831036258832-o0vlhm1g8t7bd8h9odrvia76oa4gqbrc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDSo3yOQOoaQIfnc5Nofl9LIp4ZvxzeqTk"
+          "current_key": "AIzaSyAnkqB7AQDxuYPJxK3dnsSzelB-tIW2fq4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "619170243218-61jsjc096dkov2a327blsuj552ks36sa.apps.googleusercontent.com",
+              "client_id": "831036258832-o0vlhm1g8t7bd8h9odrvia76oa4gqbrc.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "619170243218-ni4985lrld6s6eqsj957mk3ptn88o0rr.apps.googleusercontent.com",
+              "client_id": "831036258832-sh967anp50g0ou6tip9asq2205ojvfce.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.murad.barbersStore"
+                "bundle_id": "ps.company.atc"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831036258832:android:b3793a016fedbe8bc82895",
+        "android_client_info": {
+          "package_name": "ps.company.atc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831036258832-qpeqoi5l45tdm4htnuikmjftdivme72v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ps.company.atc",
+            "certificate_hash": "10bb960a986b67b4c646f0da150e49941b17e7e4"
+          }
+        },
+        {
+          "client_id": "831036258832-o0vlhm1g8t7bd8h9odrvia76oa4gqbrc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnkqB7AQDxuYPJxK3dnsSzelB-tIW2fq4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831036258832-o0vlhm1g8t7bd8h9odrvia76oa4gqbrc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "831036258832-sh967anp50g0ou6tip9asq2205ojvfce.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ps.company.atc"
               }
             }
           ]
