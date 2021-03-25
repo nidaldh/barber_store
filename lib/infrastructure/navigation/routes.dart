@@ -1,9 +1,10 @@
 class Routes {
   static Future<String> get initialRoute async {
     // TODO: implement method
-    return HOME;
+    return BALANCE;
   }
 
-  static const HOME = '/home';
+  static const BALANCE = '/home';
   static const PRODUCT_LIST = '/product-list';
+  static const STORE = '/store';
 }

@@ -1,10 +1,11 @@
-import 'package:barbers_store/presentation/home/product_list.screen.dart';
+import 'package:barbers_store/infrastructure/navigation/bindings/controllers/controllers_bindings.dart';
+import 'package:barbers_store/presentation/balance/balance.screen.dart';
+import 'package:barbers_store/presentation/store/product_list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../config.dart';
 import '../../presentation/screens.dart';
-import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
 
 class EnvironmentsBadge extends StatelessWidget {
@@ -29,9 +30,13 @@ class EnvironmentsBadge extends StatelessWidget {
 class Nav {
   static List<GetPage> routes = [
     GetPage(
-        name: Routes.HOME,
-        page: () => HomeScreen(),
-        binding: HomeControllerBinding()),
+      name: Routes.BALANCE,
+      page: () => BalanceScreen(),
+    ),
     GetPage(name: Routes.PRODUCT_LIST, page: () => ProductListScreen()),
+    GetPage(
+        name: Routes.STORE,
+        page: () => StoreScreen(),
+        binding: StoreControllerBinding()),
   ];
 }

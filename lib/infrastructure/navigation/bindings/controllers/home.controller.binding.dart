@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:barbers_store/presentation/home/controllers/home.controller.dart';
+import 'package:barbers_store/infrastructure/controller/store.controller.dart';
 
-class HomeControllerBinding extends Bindings {
+class StoreControllerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<HomeController>(
-      () => HomeController(),
+    Get.lazyPut<StoreController>(
+      () => StoreController(),
     );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:barbers_store/presentation/home/controllers/home.controller.dart';
+import 'package:barbers_store/infrastructure/controller/store.controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProductListScreen extends GetView<HomeController> {
+class ProductListScreen extends GetView<StoreController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

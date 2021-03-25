@@ -1,11 +1,11 @@
 import 'package:barbers_store/infrastructure/componet/form_input_field_with_icon.dart';
 import 'package:barbers_store/infrastructure/navigation/routes.dart';
-import 'package:barbers_store/presentation/home/controllers/home.controller.dart';
+import 'package:barbers_store/infrastructure/controller/store.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class HomeScreen extends GetView<HomeController> {
+class StoreScreen extends GetView<StoreController> {
   final _formKey2 = GlobalKey<FormState>();
 
   @override

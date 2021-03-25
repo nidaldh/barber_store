@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class StoreController extends GetxController {
   var newProduct = false.obs;
   final formKey = GlobalKey<FormState>();
   ProductModel? product;
