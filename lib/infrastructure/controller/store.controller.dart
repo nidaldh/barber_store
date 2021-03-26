@@ -1,3 +1,4 @@
+import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/model/product.model.dart';
 import 'package:barbers_store/presentation/snackbar_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +23,7 @@ class StoreController extends GetxController {
 
   @override
   void onInit() {
-    reference = _db.collection('product');
+    reference = _db.collection(Constant.PRODUCT_COLLECTION);
     quantityController = TextEditingController();
     salePriceController = TextEditingController();
     costPriceController = TextEditingController();
