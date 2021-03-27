@@ -23,10 +23,16 @@ class BalanceScreen extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () => Get.toNamed(Routes.INCOME_FORM),
-              child: Text('Income')),
+              child: Text('Income Form')),
           ElevatedButton(
               onPressed: () => Get.toNamed(Routes.OUTCOME_FORM),
-              child: Text('Outcome')),
+              child: Text('Outcome Form')),
+          ElevatedButton(
+              onPressed: () => Get.toNamed(Routes.INCOME_LIST),
+              child: Text('Income List')),
+          ElevatedButton(
+              onPressed: () => Get.toNamed(Routes.OUTCOME_LIST),
+              child: Text('Outcome List')),
         ],
       ),
     );

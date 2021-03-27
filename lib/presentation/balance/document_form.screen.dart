@@ -33,20 +33,22 @@ class FormScreen extends GetView<DocumentController> {
                     children: [
                       Text('Categories'),
                       Flexible(
-                        child: Container(
-                          width: 300,
-                          child: DropdownButtonFormField<String>(
-                              onChanged: (value) {
-                                controller.categoryController.text = value!;
-                                Get.appUpdate();
-                              },
-                              value: controller.categoryController.text,
-                              items: controller.dropDownListItem
-                                  .map((type) => DropdownMenuItem(
-                                        child: Text(type),
-                                        value: type,
-                                      ))
-                                  .toList()),
+                        child: GetBuilder<DocumentController>(
+                          builder: (controller) => Container(
+                            width: 300,
+                            child: DropdownButtonFormField<String>(
+                                onChanged: (value) {
+                                  controller.categoryController.text = value!;
+                                  Get.appUpdate();
+                                },
+                                value: controller.categoryController.text,
+                                items: controller.dropDownListItem
+                                    .map((type) => DropdownMenuItem(
+                                          child: Text(type),
+                                          value: type,
+                                        ))
+                                    .toList()),
+                          ),
                         ),
                       )
                     ]),
@@ -98,6 +100,8 @@ class FormScreen extends GetView<DocumentController> {
                   },
                   format: format,
                   controller: controller.dateController,
+                  onSaved: (value) =>
+                      controller.dateController.text = value.toString(),
                   onShowPicker: (context, currentValue) async {
                     final date = await showDatePicker(
                         context: context,

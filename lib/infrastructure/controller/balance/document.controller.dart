@@ -38,6 +38,11 @@ class DocumentController extends GetxController {
       categoryController.text = Categories.outcomeCategories.first;
       dropDownListItem = Categories.outcomeCategories;
     }
+
+    if (Get.arguments != null) {
+      currentId = Get.arguments;
+      getDocument(currentId);
+    }
     print(dropDownListItem);
     super.onInit();
   }
@@ -70,5 +75,30 @@ class DocumentController extends GetxController {
       status = Status.update;
       currentId = doc.id;
     });
+  }
+
+  Future<void> getDocument(id, {flag = false}) async {
+    DocumentSnapshot querySnapshot = await reference.doc(id).get();
+    if (querySnapshot.data() != null && querySnapshot.data()!.isNotEmpty) {
+      try {
+        print(querySnapshot.data());
+        _chaneDocument(querySnapshot.data());
+      } catch (e) {
+        print(e);
+      }
+    }
+    update();
+  }
+
+  void _chaneDocument(data) {
+    var document = DocumentModel.fromJson(data);
+
+    nameController.text = document.name;
+    categoryController.text = document.category;
+    amountController.text = document.amount.toString();
+    dateController.text = document.date;
+    noteController.text = document.note ?? '';
+    status = Status.update;
+    update();
   }
 }
