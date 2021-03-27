@@ -6,7 +6,7 @@ enum Type { income, outcome }
 
 @JsonSerializable()
 class Document {
-  String type;
+  Type type;
   String subType;
   double amount;
   String date;
