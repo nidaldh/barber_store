@@ -13,9 +13,9 @@ DocumentModel _$DocumentModelFromJson(Map<String, dynamic> json) {
     category: json['category'] as String,
     amount: (json['amount'] as num).toDouble(),
     date: json['date'] as String,
+    dateMicroseconds: json['dateMicroseconds'] as String,
     note: json['note'] as String?,
     id: json['id'] as String?,
-    dateMicroseconds: json['dateMicroseconds'] as String?,
   );
 }
 
