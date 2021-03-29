@@ -6,22 +6,29 @@ part of 'document.model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Document _$DocumentFromJson(Map<String, dynamic> json) {
-  return Document(
+DocumentModel _$DocumentModelFromJson(Map<String, dynamic> json) {
+  return DocumentModel(
     type: _$enumDecode(_$TypeEnumMap, json['type']),
-    subType: json['subType'] as String,
+    name: json['name'] as String,
+    category: json['category'] as String,
     amount: (json['amount'] as num).toDouble(),
     date: json['date'] as String,
+    dateMicroseconds: json['dateMicroseconds'] as String,
     note: json['note'] as String?,
+    id: json['id'] as String?,
   );
 }
 
-Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
+Map<String, dynamic> _$DocumentModelToJson(DocumentModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
       'type': _$TypeEnumMap[instance.type],
-      'subType': instance.subType,
+      'category': instance.category,
       'amount': instance.amount,
       'date': instance.date,
+      'dateMicroseconds': instance.dateMicroseconds,
       'note': instance.note,
+      'name': instance.name,
     };
 
 K _$enumDecode<K, V>(
