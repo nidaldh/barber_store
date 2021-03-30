@@ -16,6 +16,7 @@ DocumentModel _$DocumentModelFromJson(Map<String, dynamic> json) {
     dateMicroseconds: json['dateMicroseconds'] as String,
     note: json['note'] as String?,
     id: json['id'] as String?,
+    subCategory: json['subCategory'] as String?,
   );
 }
 
@@ -24,6 +25,7 @@ Map<String, dynamic> _$DocumentModelToJson(DocumentModel instance) =>
       'id': instance.id,
       'type': _$TypeEnumMap[instance.type],
       'category': instance.category,
+      'subCategory': instance.subCategory,
       'amount': instance.amount,
       'date': instance.date,
       'dateMicroseconds': instance.dateMicroseconds,

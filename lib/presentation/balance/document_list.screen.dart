@@ -35,10 +35,10 @@ class ListScreen extends GetView<DocumentListController> {
                         builder: (controller) => Column(
                               children: [
                                 Text('Start: ' +
-                                    controller.initialDateRange.start
+                                    controller.dateRangeFilter.start
                                         .toString()),
                                 Text('End: ' +
-                                    controller.initialDateRange.end.toString()),
+                                    controller.dateRangeFilter.end.toString()),
                               ],
                             ))
                   ],
@@ -50,14 +50,15 @@ class ListScreen extends GetView<DocumentListController> {
                       Flexible(
                         child: GetBuilder<DocumentListController>(
                           builder: (controller) => Container(
-                            width: 300,
+                            width: 250,
                             child: DropdownButtonFormField<String>(
                                 onChanged: (value) {
                                   controller.selectedCategory = value ?? 'All';
+                                  controller.changeSubCategory(value);
                                   Get.appUpdate();
                                 },
                                 value: controller.selectedCategory,
-                                items: controller.dropDownListItem
+                                items: controller.dropDownCategory
                                     .map((type) => DropdownMenuItem(
                                           child: Text(type),
                                           value: type,
@@ -67,10 +68,44 @@ class ListScreen extends GetView<DocumentListController> {
                         ),
                       )
                     ]),
+                GetBuilder<DocumentListController>(
+                  builder: (controller) {
+                    if (controller.selectedCategory == 'All') {
+                      return SizedBox(
+                        height: 20,
+                      );
+                    }
+                    return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Sub Categories'),
+                          Flexible(
+                            child: Container(
+                              width: 250,
+                              child: DropdownButtonFormField<String>(
+                                  onChanged: (value) {
+                                    controller.selectedSubCategory =
+                                        value ?? 'All';
+                                    Get.appUpdate();
+                                  },
+                                  value: controller.selectedSubCategory,
+                                  items: controller.dropDownSubCategory
+                                      .map((type) => DropdownMenuItem(
+                                            child: Text(type),
+                                            value: type,
+                                          ))
+                                      .toList()),
+                            ),
+                          )
+                        ]);
+                  },
+                ),
                 ElevatedButton(
                   onPressed: () => controller.getDocuments(filter: true),
                   child: Text('Filter'),
                 ),
+                Obx(() => Text(controller.total.value.toString()))
+                ,
                 GetBuilder<DocumentListController>(
                   builder: (controller) => Expanded(
                     child: ListView.builder(
@@ -99,13 +134,13 @@ class ListScreen extends GetView<DocumentListController> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTimeRange? pickedDate = await showDateRangePicker(
         context: context,
-        initialDateRange: controller.initialDateRange,
+        initialDateRange: controller.dateRangeFilter,
         firstDate: DateTime(2020),
         lastDate: DateTime(2030));
     if (pickedDate != null) {
       controller.startDateMicro = pickedDate.start.microsecondsSinceEpoch;
       controller.endDateMicro = pickedDate.end.microsecondsSinceEpoch;
-      controller.initialDateRange =
+      controller.dateRangeFilter =
           DateTimeRange(start: pickedDate.start, end: pickedDate.end);
     }
   }

@@ -18,7 +18,9 @@ class DocumentController extends GetxController {
   late TextEditingController noteController;
   late TextEditingController nameController;
   late TextEditingController categoryController;
-  late List<String> dropDownListItem;
+  late TextEditingController subCategoryController;
+  late List<String> dropDownCategory = [];
+  late List<String> dropDownSubCategory = [];
 
   DocumentController(this.type);
 
@@ -29,21 +31,24 @@ class DocumentController extends GetxController {
     noteController = TextEditingController();
     nameController = TextEditingController();
     categoryController = TextEditingController();
+    subCategoryController = TextEditingController();
     if (type == Type.income) {
       reference = _db.collection(Constant.INCOME_COLLECTION);
       categoryController.text = Categories.incomeCategories.first;
-      dropDownListItem = Categories.incomeCategories;
+      dropDownCategory = Categories.incomeCategories;
     } else {
       reference = _db.collection(Constant.OUTCOME_COLLECTION);
       categoryController.text = Categories.outcomeCategories.first;
-      dropDownListItem = Categories.outcomeCategories;
+      dropDownCategory = Categories.outcomeCategories;
     }
 
     if (Get.arguments != null) {
       currentId = Get.arguments;
       getDocument(currentId);
+    } else {
+      print(categoryController.text);
+      changeSubCategory(categoryController.text);
     }
-    print(dropDownListItem);
     super.onInit();
   }
 
@@ -69,6 +74,7 @@ class DocumentController extends GetxController {
         type: type,
         note: noteController.text,
         dateMicroseconds: date.microsecondsSinceEpoch.toString(),
+        subCategory: subCategoryController.text,
         id: DateTime.now().microsecondsSinceEpoch.toString());
 
     reference.doc(doc.id).set(doc.toJson()).then((value) {
@@ -95,10 +101,31 @@ class DocumentController extends GetxController {
 
     nameController.text = document.name;
     categoryController.text = document.category;
+    subCategoryController.text = document.subCategory ?? '';
     amountController.text = document.amount.toString();
     dateController.text = document.date;
     noteController.text = document.note ?? '';
     status = Status.update;
+    changeSubCategory(categoryController.text,
+        subKey: subCategoryController.text);
     update();
+  }
+
+  void changeSubCategory(key, {subKey: ''}) async {
+    var subCategory;
+    if (type == Type.income) {
+      subCategory = Categories.incomeSubCategories;
+    } else {
+      subCategory = Categories.outcomeSubCategories;
+    }
+
+    dropDownSubCategory =
+        subCategory.firstWhere((element) => element.key == key).subCategory;
+
+    if (subKey.isNotEmpty) {
+      subCategoryController.text = subKey;
+    } else {
+      subCategoryController.text = dropDownSubCategory.first;
+    }
   }
 }

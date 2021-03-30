@@ -35,14 +35,44 @@ class FormScreen extends GetView<DocumentController> {
                       Flexible(
                         child: GetBuilder<DocumentController>(
                           builder: (controller) => Container(
-                            width: 300,
+                            width: 250,
                             child: DropdownButtonFormField<String>(
                                 onChanged: (value) {
                                   controller.categoryController.text = value!;
+                                  print(value);
+                                  controller.changeSubCategory(value);
                                   Get.appUpdate();
                                 },
                                 value: controller.categoryController.text,
-                                items: controller.dropDownListItem
+                                items: controller.dropDownCategory
+                                    .map((type) => DropdownMenuItem(
+                                          child: Text(type),
+                                          value: type,
+                                        ))
+                                    .toList()),
+                          ),
+                        ),
+                      )
+                    ]),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('SubCategory'),
+                      Flexible(
+                        child: GetBuilder<DocumentController>(
+                          builder: (controller) => Container(
+                            width: 250,
+                            child: DropdownButtonFormField<String>(
+                                onChanged: (value) {
+                                  controller.subCategoryController.text =
+                                      value!;
+                                  Get.appUpdate();
+                                },
+                                value: controller.subCategoryController.text,
+                                items: controller.dropDownSubCategory
                                     .map((type) => DropdownMenuItem(
                                           child: Text(type),
                                           value: type,
@@ -103,21 +133,11 @@ class FormScreen extends GetView<DocumentController> {
                   onSaved: (value) =>
                       controller.dateController.text = value.toString(),
                   onShowPicker: (context, currentValue) async {
-                    final date = await showDatePicker(
+                    return showDatePicker(
                         context: context,
                         firstDate: DateTime(2020),
                         initialDate: currentValue ?? DateTime.now(),
                         lastDate: DateTime(2100));
-                    if (date != null) {
-                      final time = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(
-                            currentValue ?? DateTime.now()),
-                      );
-                      return DateTimeField.combine(date, time);
-                    } else {
-                      return currentValue;
-                    }
                   },
                   decoration: InputDecoration(
                       filled: true,

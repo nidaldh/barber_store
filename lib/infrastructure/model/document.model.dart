@@ -9,6 +9,7 @@ class DocumentModel {
   String? id;
   Type type;
   String category;
+  String? subCategory;
   double amount;
   String date;
   String dateMicroseconds;
@@ -23,7 +24,8 @@ class DocumentModel {
       required this.date,
       required this.dateMicroseconds,
       this.note,
-      this.id});
+      this.id,
+      this.subCategory});
 
   factory DocumentModel.fromJson(Map<String, dynamic> json) =>
       _$DocumentModelFromJson(json);
