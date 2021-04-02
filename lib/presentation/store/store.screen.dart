@@ -1,6 +1,7 @@
 import 'package:barbers_store/infrastructure/componet/form_input_field_with_icon.dart';
-import 'package:barbers_store/infrastructure/navigation/routes.dart';
+import 'package:barbers_store/infrastructure/controller/cart.controller.dart';
 import 'package:barbers_store/infrastructure/controller/store.controller.dart';
+import 'package:barbers_store/infrastructure/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -41,12 +42,12 @@ class StoreScreen extends GetView<StoreController> {
                           ElevatedButton(
                               onPressed: () => controller.scanBarcodeNormal(),
                               child: Text('Scan')),
-                          Obx(() => (!controller.newProduct.value! &&
+                          Obx(() => (!controller.newProduct.value &&
                                   controller.product != null)
                               ? Row(
                                   children: [
                                     SizedBox(
-                                      width: 70,
+                                      width: 20,
                                     ),
                                     ElevatedButton(
                                       // : Colors.green,
@@ -56,6 +57,18 @@ class StoreScreen extends GetView<StoreController> {
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.green),
                                     ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          Get.find<CartController>()
+                                              .addProductToCart(
+                                                  controller.product!),
+                                      child: Text('Add To Cart'),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.blueGrey),
+                                    ),
                                   ],
                                 )
                               : Container())
@@ -64,7 +77,7 @@ class StoreScreen extends GetView<StoreController> {
                       SizedBox(
                         height: 20,
                       ),
-                      Obx(() => controller.newProduct.value!
+                      Obx(() => controller.newProduct.value
                           ? Text('New Product\n',
                               style: TextStyle(fontSize: 20))
                           : Container()),
@@ -165,7 +178,7 @@ class StoreScreen extends GetView<StoreController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          child: Obx(() => controller.newProduct.value!
+                          child: Obx(() => controller.newProduct.value
                               ? Text('Add')
                               : Text('Edit')),
                           onPressed: () {
@@ -176,7 +189,7 @@ class StoreScreen extends GetView<StoreController> {
                           },
                         ),
                         //
-                        Obx(() => (!controller.newProduct.value! &&
+                        Obx(() => (!controller.newProduct.value &&
                                 controller.product != null)
                             ? Row(
                                 children: [
@@ -255,9 +268,9 @@ class StoreScreen extends GetView<StoreController> {
                 validator: (value) {
                   if (value!.trim().isEmpty || int.parse(value) < 1) {
                     return 'please enter quantity';
-                  } else if (controller.product!.quantity! < 1) {
+                  } else if (controller.product!.quantity < 1) {
                     return 'this product is out of stock';
-                  } else if (int.parse(value) > controller.product!.quantity!) {
+                  } else if (int.parse(value) > controller.product!.quantity) {
                     return 'You only have ${controller.product!.quantity} Piece';
                   }
                   return null;

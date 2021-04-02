@@ -6,4 +6,6 @@ class Constant {
 
   static const String INCOME_TYPE = 'income';
   static const String OUTCOME_TYPE = 'outcome';
+
+  static const String BALANCE_DOCUMENT = 'main_balance';
 }

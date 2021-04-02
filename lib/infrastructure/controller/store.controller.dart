@@ -81,15 +81,20 @@ class StoreController extends GetxController {
     if (barcodeController!.text.isEmpty || barcodeController!.text == '-1') {
       SnackBarMessage.scanBarcodeAgain();
     } else {
-      reference.doc(barcodeController!.text).update(
-          {'quantity': product!.quantity! - saleQuantity}).then((value) {
-        product!.quantity = product!.quantity! - saleQuantity as int?;
-        quantityController!.text = product!.quantity.toString();
-        SnackBarMessage.productSold();
-      }).catchError((e) {
-        SnackBarMessage.somethingWrong();
-      });
+      _saleProduct(saleQuantity);
     }
+  }
+
+  void _saleProduct(saleQuantity) {
+    reference
+        .doc(barcodeController!.text)
+        .update({'quantity': product!.quantity - saleQuantity}).then((value) {
+      product!.quantity = product!.quantity - saleQuantity as int;
+      quantityController!.text = product!.quantity.toString();
+      SnackBarMessage.productSold();
+    }).catchError((e) {
+      SnackBarMessage.somethingWrong();
+    });
   }
 
   void deleteProduct() {
@@ -145,11 +150,11 @@ class StoreController extends GetxController {
   void changeProduct(productJson) {
     product = ProductModel.fromJson(productJson);
 
-    nameController!.text = product!.name!;
+    nameController!.text = product!.name;
     salePriceController!.text = product!.salePrice.toString();
     costPriceController!.text = product!.costPrice.toString();
     quantityController!.text = product!.quantity.toString();
-    barcodeController!.text = product!.barcode!;
+    barcodeController!.text = product!.barcode;
     newProduct.value = false;
     FocusScopeNode currentFocus = FocusScope.of(Get.context!);
     if (!currentFocus.hasPrimaryFocus) {
@@ -163,5 +168,10 @@ class StoreController extends GetxController {
     salePriceController!.text = '';
     costPriceController!.text = '';
     quantityController!.text = '';
+  }
+
+  Future<ProductModel> getProductInfo(barcode) async {
+    DocumentSnapshot querySnapshot = await reference.doc(barcode).get();
+    return ProductModel.fromJson(querySnapshot.data()!);
   }
 }

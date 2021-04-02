@@ -104,8 +104,7 @@ class ListScreen extends GetView<DocumentListController> {
                   onPressed: () => controller.getDocuments(filter: true),
                   child: Text('Filter'),
                 ),
-                Obx(() => Text(controller.total.value.toString()))
-                ,
+                Obx(() => Text(controller.total.value.toString())),
                 GetBuilder<DocumentListController>(
                   builder: (controller) => Expanded(
                     child: ListView.builder(
@@ -116,7 +115,8 @@ class ListScreen extends GetView<DocumentListController> {
                             child: ListTile(
                           title: Text(doc.name),
                           trailing: Text(doc.date),
-                          subtitle: Text('category: ' + doc.category),
+                          subtitle: Text('cat: ' + doc.category),
+                          leading: Text(doc.amount.toString()),
                           onTap: () async {
                             goToForm(doc);
                           },

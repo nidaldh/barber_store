@@ -10,4 +10,5 @@ class Routes {
   static const INCOME_LIST = '/income-list';
   static const OUTCOME_FORM = '/outcome-form';
   static const OUTCOME_LIST = '/outcome-list';
+  static const CART_HOME = '/cart';
 }

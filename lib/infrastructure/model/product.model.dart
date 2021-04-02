@@ -7,11 +7,13 @@ class ProductModel {
   ProductModel(
       this.barcode, this.name, this.salePrice, this.costPrice, this.quantity);
 
-  String? barcode;
-  String? name;
+  String barcode;
+  String name;
   double? salePrice;
   double? costPrice;
-  int? quantity;
+  int quantity;
+  String? error;
+  int? storeQuantity;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
       _$ProductModelFromJson(json);

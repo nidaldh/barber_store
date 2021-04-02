@@ -21,4 +21,7 @@ class Categories {
     out1SubCategory,
     out2SubCategory
   ];
+
+  static const String cartIncomeCategory = 'in1';
+  static const String cartIncomeSubCategory = 'sub1-1';
 }

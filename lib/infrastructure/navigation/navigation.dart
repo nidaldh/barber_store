@@ -1,10 +1,13 @@
 import 'package:barbers_store/infrastructure/model/document.model.dart';
+import 'package:barbers_store/infrastructure/navigation/bindings/controllers/balance/cart.controller.binding.dart';
 import 'package:barbers_store/infrastructure/navigation/bindings/controllers/balance/document.controller.binding.dart';
 import 'package:barbers_store/infrastructure/navigation/bindings/controllers/balance/document_list.controller.binding.dart';
+import 'package:barbers_store/infrastructure/navigation/bindings/controllers/balance/initial.controller.binding.dart';
 import 'package:barbers_store/infrastructure/navigation/bindings/controllers/controllers_bindings.dart';
 import 'package:barbers_store/presentation/balance/balance.screen.dart';
 import 'package:barbers_store/presentation/balance/document_form.screen.dart';
 import 'package:barbers_store/presentation/balance/document_list.screen.dart';
+import 'package:barbers_store/presentation/cart.screen.dart';
 import 'package:barbers_store/presentation/store/product_list.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,6 +40,7 @@ class Nav {
     GetPage(
       name: Routes.BALANCE,
       page: () => BalanceScreen(),
+      binding: InitialControllerBinding(),
     ),
     GetPage(name: Routes.PRODUCT_LIST, page: () => ProductListScreen()),
     GetPage(
@@ -59,5 +63,9 @@ class Nav {
         name: Routes.OUTCOME_LIST,
         page: () => ListScreen(),
         binding: DocumentListControllerBinding(Type.outcome)),
+    GetPage(
+        name: Routes.CART_HOME,
+        page: () => CartHome(),
+        binding: CartControllerBinding()),
   ];
 }

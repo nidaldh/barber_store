@@ -1,9 +1,10 @@
+import 'package:barbers_store/infrastructure/controller/balance/balance.controller.dart';
 import 'package:barbers_store/infrastructure/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class BalanceScreen extends StatelessWidget {
+class BalanceScreen extends GetView<BalanceController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +34,13 @@ class BalanceScreen extends StatelessWidget {
           ElevatedButton(
               onPressed: () => Get.toNamed(Routes.OUTCOME_LIST),
               child: Text('Outcome List')),
+          ElevatedButton(
+              onPressed: () => Get.toNamed(Routes.CART_HOME),
+              child: Text('Cart')),
+          ElevatedButton(
+              onPressed: () => controller.recalculateBalance(),
+              child: Text('Recall')),
+          Obx(() => Text(controller.balance.value.amount.toString()))
         ],
       ),
     );

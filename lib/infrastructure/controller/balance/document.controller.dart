@@ -1,5 +1,6 @@
 import 'package:barbers_store/infrastructure/constant/Categories.dart';
 import 'package:barbers_store/infrastructure/constant/Constant.dart';
+import 'package:barbers_store/infrastructure/controller/balance/balance.controller.dart';
 import 'package:barbers_store/infrastructure/model/document.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,21 +53,25 @@ class DocumentController extends GetxController {
     super.onInit();
   }
 
-  void addDocument() {
-    _addDocument();
+  void addDocument({DocumentModel? doc}) async {
+    if (doc == null) {
+      doc = await prepareDocument();
+    }
+    _addDocument(doc);
     update();
   }
 
-  void editDocument() {
+  void editDocument() async {
     reference.doc(currentId).delete();
-    _addDocument();
+    DocumentModel doc = await prepareDocument();
+    _addDocument(doc);
     update();
   }
 
-  void _addDocument() {
+  Future<DocumentModel> prepareDocument() async {
     var date = DateTime.parse(dateController.text);
 
-    DocumentModel doc = new DocumentModel(
+    return DocumentModel(
         name: nameController.text,
         amount: double.parse(amountController.text),
         date: dateController.text,
@@ -76,7 +81,17 @@ class DocumentController extends GetxController {
         dateMicroseconds: date.microsecondsSinceEpoch.toString(),
         subCategory: subCategoryController.text,
         id: DateTime.now().microsecondsSinceEpoch.toString());
+  }
 
+  void _addDocument(DocumentModel doc) {
+    double currentBalance =
+        Get.find<BalanceController>().balance.value.amount ?? 0;
+    if(type == Type.outcome){
+      currentBalance -= doc.amount;
+    }else{
+      currentBalance += doc.amount;
+    }
+    Get.find<BalanceController>().updateBalance(currentBalance);
     reference.doc(doc.id).set(doc.toJson()).then((value) {
       status = Status.update;
       currentId = doc.id;
