@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 
 class FormScreen extends GetView<DocumentController> {
   final _formKey = GlobalKey<FormState>();
-  final format = DateFormat("yyyy-MM-dd");
+  final format = DateFormat("yyyy-MM-dd").add_Hm();
 
   @override
   Widget build(BuildContext context) {
@@ -120,11 +120,9 @@ class FormScreen extends GetView<DocumentController> {
                 ),
                 DateTimeField(
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null &&
+                        controller.dateController.text.isEmpty) {
                       return 'dateError'.tr;
-                    }
-                    if (value.compareTo(DateTime.now()) > 0) {
-                      return 'dateErrorFuture'.tr;
                     }
                     return null;
                   },
@@ -133,11 +131,21 @@ class FormScreen extends GetView<DocumentController> {
                   onSaved: (value) =>
                       controller.dateController.text = value.toString(),
                   onShowPicker: (context, currentValue) async {
-                    return showDatePicker(
+                    final date = await showDatePicker(
                         context: context,
                         firstDate: DateTime(2020),
                         initialDate: currentValue ?? DateTime.now(),
                         lastDate: DateTime(2100));
+                    if (date != null) {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.fromDateTime(
+                            currentValue ?? DateTime.now()),
+                      );
+                      return DateTimeField.combine(date, time);
+                    } else {
+                      return currentValue;
+                    }
                   },
                   decoration: InputDecoration(
                       filled: true,
@@ -159,22 +167,68 @@ class FormScreen extends GetView<DocumentController> {
                     labelText: 'note',
                   ),
                 ),
-                ElevatedButton(
-                    child: GetBuilder<DocumentController>(
-                        builder: (c) => Text(
-                            controller.status == Status.add ? 'Add' : 'Edit')),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        controller.status == Status.add
-                            ? controller.addDocument()
-                            : controller.editDocument();
-                      }
-                    }),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: GetBuilder<DocumentController>(
+                      builder: (c) => Row(
+                            mainAxisAlignment: controller.status == Status.add
+                                ? MainAxisAlignment.center
+                                : MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                  child: Text(controller.status == Status.add
+                                      ? 'Add'
+                                      : 'Edit'),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      controller.status == Status.add
+                                          ? controller.addDocument()
+                                          : controller.editDocument();
+                                    }
+                                  }),
+                              controller.status != Status.add
+                                  ? ElevatedButton(
+                                      child: Text('Delete'),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.red),
+                                      onPressed: () {
+                                        _showDialog();
+                                      })
+                                  : Container()
+                            ],
+                          )),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _showDialog() {
+    var context = Get.context;
+    Get.dialog(AlertDialog(
+      title: Text('Delete Product', style: TextStyle(color: Colors.redAccent)),
+      content: Text('Are you sure that you want to delete this record?'),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            'yes',
+            style: TextStyle(color: Colors.redAccent),
+          ),
+          onPressed: () {
+            controller.deleteDocument();
+            Navigator.of(context!).pop();
+          },
+        ),
+        TextButton(
+          child: Text('no', style: TextStyle(color: Colors.lightGreen)),
+          onPressed: () {
+            Navigator.of(context!).pop();
+          },
+        ),
+      ],
+    ));
   }
 }

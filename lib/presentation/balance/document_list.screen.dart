@@ -5,8 +5,11 @@ import 'package:barbers_store/infrastructure/navigation/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class ListScreen extends GetView<DocumentListController> {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,28 +26,27 @@ class ListScreen extends GetView<DocumentListController> {
             child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () => _selectDate(context),
                       child: Text('Select date'),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
                     GetBuilder<DocumentListController>(
-                        builder: (controller) => Column(
+                        builder: (controller) => Row(
                               children: [
                                 Text('Start: ' +
-                                    controller.dateRangeFilter.start
-                                        .toString()),
+                                    formatter.format(
+                                        controller.dateRangeFilter.start)),
                                 Text('End: ' +
-                                    controller.dateRangeFilter.end.toString()),
+                                    formatter.format(
+                                        controller.dateRangeFilter.end)),
                               ],
                             ))
                   ],
                 ),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text('Categories'),
                       Flexible(
@@ -76,7 +78,7 @@ class ListScreen extends GetView<DocumentListController> {
                       );
                     }
                     return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text('Sub Categories'),
                           Flexible(
@@ -100,11 +102,38 @@ class ListScreen extends GetView<DocumentListController> {
                         ]);
                   },
                 ),
-                ElevatedButton(
-                  onPressed: () => controller.getDocuments(filter: true),
-                  child: Text('Filter'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      onPressed: () => Get.toNamed(
+                          controller.type == Type.income
+                              ? Routes.INCOME_FORM
+                              : Routes.OUTCOME_FORM),
+                      child: Text('Insert'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => controller.getDocuments(filter: true),
+                      child: Text('Filter'),
+                    ),
+                  ],
                 ),
-                Obx(() => Text(controller.total.value.toString())),
+                SizedBox(
+                  height: 10,
+                ),
+                Obx(() => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Total = ' + controller.total.value.toString(),
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green),
+                        ),
+                      ],
+                    )),
                 GetBuilder<DocumentListController>(
                   builder: (controller) => Expanded(
                     child: ListView.builder(

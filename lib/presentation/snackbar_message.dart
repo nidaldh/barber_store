@@ -24,7 +24,7 @@ class SnackBarMessage {
         'Product Added/Modified',
         snackPosition: SnackPosition.BOTTOM,
         duration: Duration(seconds: 3),
-        backgroundColor: Get.theme!.snackBarTheme.backgroundColor,
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
       );
 
   static productSold() => Get.snackbar(
@@ -32,6 +32,6 @@ class SnackBarMessage {
         'Product sold',
         snackPosition: SnackPosition.BOTTOM,
         duration: Duration(seconds: 3),
-        backgroundColor: Get.theme!.snackBarTheme.backgroundColor,
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
       );
 }

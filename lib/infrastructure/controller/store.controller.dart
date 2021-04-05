@@ -114,7 +114,7 @@ class StoreController extends GetxController {
           'Product Deleted',
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 3),
-          backgroundColor: Get.theme!.snackBarTheme.backgroundColor,
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
         );
       }).catchError((e) {
         SnackBarMessage.somethingWrong();

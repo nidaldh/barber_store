@@ -22,6 +22,7 @@ class DocumentController extends GetxController {
   late TextEditingController subCategoryController;
   late List<String> dropDownCategory = [];
   late List<String> dropDownSubCategory = [];
+  DocumentModel? document;
 
   DocumentController(this.type);
 
@@ -58,6 +59,7 @@ class DocumentController extends GetxController {
       doc = await prepareDocument();
     }
     _addDocument(doc);
+    document = doc;
     update();
   }
 
@@ -65,7 +67,14 @@ class DocumentController extends GetxController {
     reference.doc(currentId).delete();
     DocumentModel doc = await prepareDocument();
     _addDocument(doc);
+    document = doc;
     update();
+  }
+
+  void deleteDocument() async {
+    reference.doc(currentId).delete();
+    Get.find<BalanceController>().updateBalance(type, -document!.amount);
+    Get.back();
   }
 
   Future<DocumentModel> prepareDocument() async {
@@ -84,14 +93,13 @@ class DocumentController extends GetxController {
   }
 
   void _addDocument(DocumentModel doc) {
-    double currentBalance =
-        Get.find<BalanceController>().balance.value.amount ?? 0;
-    if(type == Type.outcome){
-      currentBalance -= doc.amount;
-    }else{
-      currentBalance += doc.amount;
+    double amount = doc.amount;
+
+    if (document != null && document!.amount > 0) {
+      amount = doc.amount - document!.amount;
     }
-    Get.find<BalanceController>().updateBalance(currentBalance);
+
+    Get.find<BalanceController>().updateBalance(type, amount);
     reference.doc(doc.id).set(doc.toJson()).then((value) {
       status = Status.update;
       currentId = doc.id;
@@ -112,14 +120,23 @@ class DocumentController extends GetxController {
   }
 
   void _chaneDocument(data) {
-    var document = DocumentModel.fromJson(data);
+    document = DocumentModel.fromJson(data);
 
-    nameController.text = document.name;
-    categoryController.text = document.category;
-    subCategoryController.text = document.subCategory ?? '';
-    amountController.text = document.amount.toString();
-    dateController.text = document.date;
-    noteController.text = document.note ?? '';
+    if (document!.category.isEmpty ||
+        !dropDownCategory.contains(document!.category)) {
+      document!.category = dropDownCategory.first;
+      document!.subCategory = '';
+    } else if (document!.subCategory != null &&
+        !dropDownSubCategory.contains(document!.subCategory)) {
+      document!.subCategory = '';
+    }
+
+    nameController.text = document!.name;
+    categoryController.text = document!.category;
+    subCategoryController.text = document!.subCategory ?? '';
+    amountController.text = document!.amount.toString();
+    dateController.text = document!.date;
+    noteController.text = document!.note ?? '';
     status = Status.update;
     changeSubCategory(categoryController.text,
         subKey: subCategoryController.text);

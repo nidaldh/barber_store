@@ -29,10 +29,14 @@ class CartController extends GetxController {
     }
   }
 
+  void deleteProductFromCart(ProductModel product) {
+    cart.removeProductToCart(product);
+    cart.calculateCartTotal();
+  }
+
   void increaseProductQuantity(index) {
     cart.increaseProductQuantity(index);
     cart.calculateCartTotal();
-    // update();
   }
 
   void decreaseProductQuantity(index) {
@@ -40,7 +44,6 @@ class CartController extends GetxController {
       cart.decreaseProductQuantity(index);
       cart.calculateCartTotal();
     }
-    // update();
   }
 
   void saleCartProducts() async {
@@ -102,7 +105,7 @@ class CartController extends GetxController {
     return DocumentModel(
         name: 'Sale Products',
         amount: cart.total,
-        date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        date: DateFormat('yyyy-MM-dd').add_Hm().format(DateTime.now()),
         category: Categories.cartIncomeCategory,
         type: Type.income,
         note: note,

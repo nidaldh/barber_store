@@ -46,17 +46,17 @@ class StoreScreen extends GetView<StoreController> {
                                   controller.product != null)
                               ? Row(
                                   children: [
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    ElevatedButton(
-                                      // : Colors.green,
-                                      onPressed: () =>
-                                          _asyncInputDialog(context),
-                                      child: Text('Sale'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.green),
-                                    ),
+                                    // SizedBox(
+                                    //   width: 20,
+                                    // ),
+                                    // ElevatedButton(
+                                    //   // : Colors.green,
+                                    //   onPressed: () =>
+                                    //       _asyncInputDialog(context),
+                                    //   child: Text('Sale'),
+                                    //   style: ElevatedButton.styleFrom(
+                                    //       primary: Colors.green),
+                                    // ),
                                     SizedBox(
                                       width: 20,
                                     ),
