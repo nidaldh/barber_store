@@ -50,7 +50,7 @@ class DocumentListController extends GetxController {
     documents.clear();
     total.value = 0;
     for (QueryDocumentSnapshot data in querySnapshot.docs) {
-      DocumentModel tmpDocument = DocumentModel.fromJson(data.data()!);
+      DocumentModel tmpDocument = DocumentModel.fromJson(data.data());
       if (filter) {
         if (filterCondition(tmpDocument)) {
           documents.add(tmpDocument);

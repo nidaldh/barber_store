@@ -45,21 +45,23 @@ class BalanceController extends GetxController {
       outAmount += documentModel.amount;
     }
     double balanceAmount = incomeAmount - outAmount;
-    _updateBalance(balanceAmount);
+    BalanceModel balance = BalanceModel(
+        amount: balanceAmount, income: incomeAmount, outcome: outAmount);
+    _updateBalance(balance);
   }
 
-  void _updateBalance(balanceAmount) {
-    reference
-        .doc(Constant.BALANCE_DOCUMENT)
-        .update(BalanceModel(amount: balanceAmount).toJson());
+  void _updateBalance(BalanceModel balance) {
+    reference.doc(Constant.BALANCE_DOCUMENT).update(balance.toJson());
   }
 
   void updateBalance(type, amount) {
-    double currentBalance = balance.value.amount ?? 0;
+    BalanceModel currentBalance = balance.value;
     if (type == Type.outcome) {
-      currentBalance -= amount;
+      currentBalance.amount = currentBalance.amount! - amount;
+      currentBalance.outcome = currentBalance.outcome! + amount;
     } else {
-      currentBalance += amount;
+      currentBalance.amount = currentBalance.amount! + amount;
+      currentBalance.income = currentBalance.income! + amount;
     }
     _updateBalance(currentBalance);
   }
