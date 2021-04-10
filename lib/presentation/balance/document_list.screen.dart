@@ -33,7 +33,7 @@ class ListScreen extends GetView<DocumentListController> {
                       child: Text('Select date'),
                     ),
                     GetBuilder<DocumentListController>(
-                        builder: (controller) => Row(
+                        builder: (controller) => Column(
                               children: [
                                 Text('Start: ' +
                                     formatter.format(
@@ -125,17 +125,27 @@ class ListScreen extends GetView<DocumentListController> {
                 Obx(() => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Total = ' + controller.total.value.toString(),
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green),
+                        Card(
+                          elevation: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Total: ' + controller.total.value.toString(),
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
+                            ),
+                          ),
                         ),
                       ],
                     )),
-                GetBuilder<DocumentListController>(
-                  builder: (controller) => Expanded(
+                GetBuilder<DocumentListController>(builder: (controller) {
+                  print(!controller.ready);
+                  if (!controller.ready) {
+                    return Center(child: LinearProgressIndicator());
+                  }
+                  return Expanded(
                     child: ListView.builder(
                       itemCount: controller.documents.length,
                       itemBuilder: (context, index) {
@@ -144,7 +154,13 @@ class ListScreen extends GetView<DocumentListController> {
                             child: ListTile(
                           title: Text(doc.name),
                           trailing: Text(doc.date),
-                          subtitle: Text('cat: ' + doc.category),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Cat: ' + doc.category),
+                              Text('SubCat: ' + (doc.subCategory ?? '')),
+                            ],
+                          ),
                           leading: Text(doc.amount.toString()),
                           onTap: () async {
                             goToForm(doc);
@@ -152,8 +168,8 @@ class ListScreen extends GetView<DocumentListController> {
                         ));
                       },
                     ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ),

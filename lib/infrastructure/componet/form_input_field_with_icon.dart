@@ -1,16 +1,4 @@
 import 'package:flutter/material.dart';
-/*
-FormInputFieldWithIcon(
-                controller: _email,
-                iconPrefix: Icons.link,
-                labelText: 'Post URL',
-                validator: Validator.notEmpty,
-                keyboardType: TextInputType.multiline,
-                minLines: 3,
-                onChanged: (value) => print('changed'),
-                onSaved: (value) => print('implement me'),
-              ),
-*/
 
 class FormInputFieldWithIcon extends StatelessWidget {
   FormInputFieldWithIcon(

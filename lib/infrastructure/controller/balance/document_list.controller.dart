@@ -22,6 +22,7 @@ class DocumentListController extends GetxController {
   late String selectedSubCategory;
   late List<String> dropDownSubCategory = [];
   late RxDouble total = 0.0.obs;
+  late bool ready = false;
 
   DocumentListController(this.type);
 
@@ -45,6 +46,8 @@ class DocumentListController extends GetxController {
   }
 
   Future<void> getDocuments({filter = false}) async {
+    ready = false;
+    update();
     reference.get();
     QuerySnapshot querySnapshot = await reference.get();
     documents.clear();
@@ -61,6 +64,7 @@ class DocumentListController extends GetxController {
         total.value = total.value + tmpDocument.amount;
       }
     }
+    ready = true;
     update();
   }
 
@@ -73,10 +77,13 @@ class DocumentListController extends GetxController {
         data.subCategory != selectedSubCategory) {
       return false;
     }
-    if ((dateRangeFilter.end.microsecondsSinceEpoch >
-            int.parse(data.dateMicroseconds) &&
-        int.parse(data.dateMicroseconds) >
-            dateRangeFilter.start.microsecondsSinceEpoch)) {
+    var tmp = DateTimeRange(
+        start: DateTime(dateRangeFilter.start.year, dateRangeFilter.start.month,
+            dateRangeFilter.start.day - 1),
+        end: DateTime(dateRangeFilter.end.year, dateRangeFilter.end.month,
+            dateRangeFilter.end.day + 1));
+    if ((tmp.end.microsecondsSinceEpoch > int.parse(data.dateMicroseconds) &&
+        int.parse(data.dateMicroseconds) > tmp.start.microsecondsSinceEpoch)) {
       return true;
     }
     return false;

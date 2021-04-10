@@ -101,11 +101,37 @@ class CartHome extends GetView<CartController> {
               }),
         ),
         Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: TextFormField(
+                    controller: controller.discountAmountController,
+                    keyboardType: TextInputType.number,
+                    onSaved: (value) =>
+                        controller.discountAmountController.text = value ?? '',
+                    decoration: InputDecoration(
+                      filled: true,
+                      labelText: 'Discount',
+                    )),
+                width: 100,
+              ),
+              ElevatedButton(
+                  onPressed: () => controller.addDiscount(),
+                  child: Text('Discount'))
+            ],
+          ),
+        ),
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(controller.cart.total.toString()),
+              Text(
+                'Total: ' + controller.cart.total.toString(),
+                style: TextStyle(fontSize: 24),
+              ),
               ElevatedButton(
                   onPressed: () => controller.saleCartProducts(),
                   child: Text('Sale'))

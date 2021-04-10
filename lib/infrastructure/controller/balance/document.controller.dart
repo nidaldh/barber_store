@@ -2,6 +2,7 @@ import 'package:barbers_store/infrastructure/constant/Categories.dart';
 import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/controller/balance/balance.controller.dart';
 import 'package:barbers_store/infrastructure/model/document.model.dart';
+import 'package:barbers_store/presentation/snackbar_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,6 @@ class DocumentController extends GetxController {
       currentId = Get.arguments;
       getDocument(currentId);
     } else {
-      print(categoryController.text);
       changeSubCategory(categoryController.text);
     }
     super.onInit();
@@ -68,6 +68,7 @@ class DocumentController extends GetxController {
     DocumentModel doc = await prepareDocument();
     _addDocument(doc);
     document = doc;
+    SnackBarMessage.editDocument();
     update();
   }
 
@@ -110,7 +111,6 @@ class DocumentController extends GetxController {
     DocumentSnapshot querySnapshot = await reference.doc(id).get();
     if (querySnapshot.data() != null && querySnapshot.data()!.isNotEmpty) {
       try {
-        print(querySnapshot.data());
         _chaneDocument(querySnapshot.data());
       } catch (e) {
         print(e);

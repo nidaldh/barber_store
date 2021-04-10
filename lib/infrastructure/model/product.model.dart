@@ -5,7 +5,12 @@ part 'product.model.g.dart';
 @JsonSerializable()
 class ProductModel {
   ProductModel(
-      this.barcode, this.name, this.salePrice, this.costPrice, this.quantity);
+      {required this.barcode,
+      required this.name,
+      this.salePrice,
+      this.costPrice,
+      required this.quantity,
+      this.storeQuantity});
 
   String barcode;
   String name;
@@ -19,6 +24,15 @@ class ProductModel {
       _$ProductModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  factory ProductModel.fromMap(Map? data) => ProductModel(
+        barcode: data!['barcode'],
+        name: data['name'],
+        salePrice: data['salePrice'],
+        costPrice: data['costPrice'],
+        quantity: data['quantity'],
+        storeQuantity: data['quantity'],
+      );
 
   @override
   String toString() {

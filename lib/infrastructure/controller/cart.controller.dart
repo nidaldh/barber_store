@@ -5,18 +5,26 @@ import 'package:barbers_store/infrastructure/model/cart.model.dart';
 import 'package:barbers_store/infrastructure/model/document.model.dart';
 import 'package:barbers_store/infrastructure/model/product.model.dart';
 import 'package:barbers_store/presentation/snackbar_message.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CartController extends GetxController {
   late CartModel cart;
+  late TextEditingController discountAmountController;
 
   CartController();
 
   @override
   void onInit() {
+    discountAmountController = TextEditingController();
+    discountAmountController.text = "0";
     cart = CartModel(
-        total: 0, count: 0, products: <ProductModel>[], haveError: false);
+        total: 0,
+        count: 0,
+        discount: 0,
+        products: <ProductModel>[],
+        haveError: false);
     super.onInit();
   }
 
@@ -25,7 +33,9 @@ class CartController extends GetxController {
     if (!cart.products.contains(product)) {
       cart.addProductToCart(product);
       cart.calculateCartTotal();
-      SnackBarMessage.productSold();
+      SnackBarMessage.addProductToCart();
+    } else if (cart.products.contains(product)) {
+      SnackBarMessage.productInCart();
     }
   }
 
@@ -49,13 +59,24 @@ class CartController extends GetxController {
   void saleCartProducts() async {
     await _validateCate();
     if (!cart.haveError) {
+      bool valid = true;
       for (ProductModel cartProduct in cart.products) {
-        _saleProduct(cartProduct);
+        valid = _saleProduct(cartProduct);
       }
-      _addIncome();
-      cart.products.clear();
+      if (valid) {
+        _addIncome();
+        cart.products.clear();
+        SnackBarMessage.productSold();
+      }
     }
     update();
+  }
+
+  void addDiscount() {
+    if (discountAmountController.text.isNotEmpty) {
+      cart.discount = double.parse(discountAmountController.text);
+      cart.calculateCartTotal();
+    }
   }
 
   Future<void> _validateCate() async {
@@ -73,7 +94,6 @@ class CartController extends GetxController {
       } else {
         cart.products[index].error = null;
       }
-      print(storeProduct);
       cart.products[index].storeQuantity = storeProduct.quantity;
       index++;
     }
@@ -84,14 +104,18 @@ class CartController extends GetxController {
     }
   }
 
-  void _saleProduct(ProductModel product) {
+  bool _saleProduct(ProductModel product) {
+    bool valid = true;
     StoreController storeController = Get.find<StoreController>();
-    storeController.reference.doc(product.barcode).update(
-        {'quantity': product.storeQuantity! - product.quantity}).then((value) {
-      SnackBarMessage.productSold();
-    }).catchError((e) {
-      SnackBarMessage.somethingWrong();
-    });
+    storeController.reference
+        .doc(product.barcode)
+        .update({'quantity': product.storeQuantity! - product.quantity})
+        .then((value) {})
+        .catchError((e) {
+          valid = false;
+          SnackBarMessage.somethingWrong();
+        });
+    return valid;
   }
 
   Future<void> _addIncome() async {
@@ -124,6 +148,9 @@ class CartController extends GetxController {
           ', Price: ' +
           value.salePrice.toString() +
           '\n';
+    }
+    if (cart.discount > 0) {
+      note += "Discount: " + cart.discount.toString() + '\n';
     }
     return note;
   }

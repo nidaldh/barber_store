@@ -1,4 +1,6 @@
+import 'package:barbers_store/infrastructure/controller/cart.controller.dart';
 import 'package:barbers_store/infrastructure/controller/store.controller.dart';
+import 'package:barbers_store/infrastructure/model/product.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ class ProductListScreen extends GetView<StoreController> {
               return ListView(
                   children: documents
                       .map((doc) => Card(
+                            color: getColor(doc['quantity']),
                             child: ListTile(
                               title: Text(doc['name'] ?? 'Product Name'),
                               trailing:
@@ -34,6 +37,10 @@ class ProductListScreen extends GetView<StoreController> {
                                 controller.changeProduct(doc.data());
                                 Get.back();
                               },
+                              onLongPress: () {
+                                Get.find<CartController>().addProductToCart(
+                                    ProductModel.fromMap(doc.data()));
+                              },
                             ),
                           ))
                       .toList());
@@ -41,5 +48,12 @@ class ProductListScreen extends GetView<StoreController> {
             return Center(child: Text("NO Products"));
           }),
     );
+  }
+
+  Color getColor(var quantity) {
+    if (quantity != null && quantity < 1) {
+      return Colors.redAccent;
+    }
+    return Colors.white;
   }
 }

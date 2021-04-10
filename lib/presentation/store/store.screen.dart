@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class StoreScreen extends GetView<StoreController> {
-  final _formKey2 = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -241,69 +239,6 @@ class StoreScreen extends GetView<StoreController> {
           },
         ),
       ],
-    ));
-  }
-
-  void _asyncInputDialog(BuildContext context) async {
-    controller.getProduct(controller.barcodeController!.text, flag: true);
-    int saleQuantity = 0;
-    Get.dialog(AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      title: Text('Sale'.tr),
-      content: Form(
-        key: _formKey2,
-        child: Container(
-          width: 300,
-          height: 150,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Quantity'.tr,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.amberAccent)),
-                ),
-                validator: (value) {
-                  if (value!.trim().isEmpty || int.parse(value) < 1) {
-                    return 'please enter quantity';
-                  } else if (controller.product!.quantity < 1) {
-                    return 'this product is out of stock';
-                  } else if (int.parse(value) > controller.product!.quantity) {
-                    return 'You only have ${controller.product!.quantity} Piece';
-                  }
-                  return null;
-                },
-                onSaved: (value) => saleQuantity = int.parse(value!),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: Row(
-                      children: <Widget>[
-                        Text('Sale'),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(primary: Colors.deepPurple),
-                    onPressed: () async {
-                      if (_formKey2.currentState!.validate()) {
-                        _formKey2.currentState!.save();
-                        controller.saleProduct(saleQuantity);
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
     ));
   }
 }

@@ -62,11 +62,11 @@ class StoreController extends GetxController {
         reference.doc(product!.barcode).delete();
       }
       product = ProductModel(
-          barcodeController!.text,
-          nameController!.text,
-          double.parse(salePriceController!.text),
-          double.parse(costPriceController!.text),
-          int.parse(quantityController!.text));
+          barcode: barcodeController!.text,
+          name: nameController!.text,
+          salePrice: double.parse(salePriceController!.text),
+          costPrice: double.parse(costPriceController!.text),
+          quantity: int.parse(quantityController!.text));
       reference
           .doc(barcodeController!.text)
           .set(product!.toJson())

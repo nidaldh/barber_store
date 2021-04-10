@@ -39,7 +39,6 @@ class FormScreen extends GetView<DocumentController> {
                             child: DropdownButtonFormField<String>(
                                 onChanged: (value) {
                                   controller.categoryController.text = value!;
-                                  print(value);
                                   controller.changeSubCategory(value);
                                   Get.appUpdate();
                                 },

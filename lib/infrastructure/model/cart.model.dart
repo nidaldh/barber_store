@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class CartModel {
   int count;
   double total;
+  double discount;
   List<ProductModel> products;
   bool haveError;
 
@@ -11,7 +12,8 @@ class CartModel {
       {required this.total,
       required this.count,
       required this.products,
-      required this.haveError});
+      required this.haveError,
+      required this.discount});
 
   void calculateItemCount() => count = products.length;
 
@@ -29,10 +31,12 @@ class CartModel {
     for (var value in products) {
       total += (value.quantity * (value.salePrice ?? 1));
     }
+    total -= discount;
     Get.appUpdate();
   }
 
   void clearError() => haveError = false;
+
   void cartHaveError() => haveError = true;
 
   bool cartHaveProduct() => products.isNotEmpty;

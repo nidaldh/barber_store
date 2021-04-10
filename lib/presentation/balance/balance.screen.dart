@@ -11,21 +11,10 @@ class BalanceScreen extends GetView<BalanceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              icon: Icon(MdiIcons.cart),
-              onPressed: () {
-                Get.toNamed(Routes.STORE);
-              })
-        ],
+        title: Text('Barber Store'),
       ),
       body: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () => controller.recalculateBalance(),
-              child: Text('Recall')),
-          mainGridView()
-        ],
+        children: [mainGridView()],
       ),
     );
   }
@@ -67,6 +56,7 @@ class BalanceScreen extends GetView<BalanceController> {
                   ? controller.balance.value.amount!
                   : 0,
               route: '',
+              longPress: () => controller.recalculateBalance(),
             )),
       ],
       staggeredTiles: [
