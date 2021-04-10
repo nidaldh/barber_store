@@ -1,3 +1,4 @@
+import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/model/product.model.dart';
 import 'package:barbers_store/presentation/snackbar_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,28 +8,29 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class StoreController extends GetxController {
   var newProduct = false.obs;
   final formKey = GlobalKey<FormState>();
-  ProductModel product;
+  ProductModel? product;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  CollectionReference reference;
-  TextEditingController quantityController;
-  TextEditingController salePriceController;
-  TextEditingController costPriceController;
-  TextEditingController nameController;
-  TextEditingController barcodeController;
-  FocusNode nameFocusNode;
+  late CollectionReference reference;
+  TextEditingController? quantityController;
+  TextEditingController? salePriceController;
+  TextEditingController? costPriceController;
+  TextEditingController? nameController;
+  TextEditingController? barcodeController;
+  FocusNode? nameFocusNode;
 
   @override
   void onInit() {
-    reference = _db.collection('product');
+    reference = _db.collection(Constant.PRODUCT_COLLECTION);
     quantityController = TextEditingController();
     salePriceController = TextEditingController();
     costPriceController = TextEditingController();
     nameController = TextEditingController();
     barcodeController = TextEditingController();
     nameFocusNode = FocusNode();
+    super.onInit();
   }
 
   @override
@@ -43,7 +45,7 @@ class HomeController extends GetxController {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.BARCODE);
-      barcodeController.text = barcodeScanRes;
+      barcodeController!.text = barcodeScanRes;
       if (barcodeScanRes.isNotEmpty || barcodeScanRes != '-1') {
         getProduct(barcodeScanRes);
       }
@@ -53,19 +55,22 @@ class HomeController extends GetxController {
   }
 
   void addProduct() {
-    if (barcodeController.text.isEmpty || barcodeController.text == '-1') {
+    if (barcodeController!.text.isEmpty || barcodeController!.text == '-1') {
       SnackBarMessage.scanBarcodeAgain();
     } else {
-      if (product != null && product.barcode != barcodeController.text) {
-        reference.doc(product.barcode).delete();
+      if (product != null && product!.barcode != barcodeController!.text) {
+        reference.doc(product!.barcode).delete();
       }
       product = ProductModel(
-          barcodeController.text,
-          nameController.text,
-          double.parse(salePriceController.text),
-          double.parse(costPriceController.text),
-          int.parse(quantityController.text));
-      reference.doc(barcodeController.text).set(product.toJson()).then((value) {
+          barcode: barcodeController!.text,
+          name: nameController!.text,
+          salePrice: double.parse(salePriceController!.text),
+          costPrice: double.parse(costPriceController!.text),
+          quantity: int.parse(quantityController!.text));
+      reference
+          .doc(barcodeController!.text)
+          .set(product!.toJson())
+          .then((value) {
         newProduct.value = false;
         SnackBarMessage.modifySuccess();
       });
@@ -73,33 +78,37 @@ class HomeController extends GetxController {
   }
 
   void saleProduct(saleQuantity) {
-    if (barcodeController.text.isEmpty || barcodeController.text == '-1') {
+    if (barcodeController!.text.isEmpty || barcodeController!.text == '-1') {
       SnackBarMessage.scanBarcodeAgain();
     } else {
-      reference
-          .doc(barcodeController.text)
-          .update({'quantity': product.quantity - saleQuantity}).then((value) {
-        product.quantity = product.quantity - saleQuantity;
-        quantityController.text = product.quantity.toString();
-        SnackBarMessage.productSold();
-      }).catchError((e) {
-        SnackBarMessage.somethingWrong();
-      });
+      _saleProduct(saleQuantity);
     }
   }
 
+  void _saleProduct(saleQuantity) {
+    reference
+        .doc(barcodeController!.text)
+        .update({'quantity': product!.quantity - saleQuantity}).then((value) {
+      product!.quantity = product!.quantity - saleQuantity as int;
+      quantityController!.text = product!.quantity.toString();
+      SnackBarMessage.productSold();
+    }).catchError((e) {
+      SnackBarMessage.somethingWrong();
+    });
+  }
+
   void deleteProduct() {
-    if (barcodeController.text.isEmpty || barcodeController.text == '-1') {
+    if (barcodeController!.text.isEmpty || barcodeController!.text == '-1') {
       SnackBarMessage.scanBarcodeAgain();
     } else {
-      reference.doc(barcodeController.text).delete().then((value) {
+      reference.doc(barcodeController!.text).delete().then((value) {
         newProduct.value = true;
         product = null;
-        quantityController.text = '';
-        salePriceController.text = '';
-        costPriceController.text = '';
-        nameController.text = '';
-        barcodeController.text = '';
+        quantityController!.text = '';
+        salePriceController!.text = '';
+        costPriceController!.text = '';
+        nameController!.text = '';
+        barcodeController!.text = '';
         Get.snackbar(
           'Success',
           'Product Deleted',
@@ -115,13 +124,13 @@ class HomeController extends GetxController {
 
   Future<void> getProduct(barcode, {flag = false}) async {
     DocumentSnapshot querySnapshot = await reference.doc(barcode).get();
-    if (querySnapshot.data() != null && querySnapshot.data().isNotEmpty) {
+    if (querySnapshot.data() != null && querySnapshot.data()!.isNotEmpty) {
       try {
         changeProduct(querySnapshot.data());
       } catch (e) {
         newProduct.value = true;
         product = null;
-        nameFocusNode.requestFocus();
+        nameFocusNode!.requestFocus();
         clearInputs();
         if (flag) {
           SnackBarMessage.noProduct();
@@ -130,7 +139,7 @@ class HomeController extends GetxController {
     } else {
       newProduct.value = true;
       product = null;
-      nameFocusNode.requestFocus();
+      nameFocusNode!.requestFocus();
       clearInputs();
       if (flag) {
         SnackBarMessage.noProduct();
@@ -141,23 +150,28 @@ class HomeController extends GetxController {
   void changeProduct(productJson) {
     product = ProductModel.fromJson(productJson);
 
-    nameController.text = product.name;
-    salePriceController.text = product.salePrice.toString();
-    costPriceController.text = product.costPrice.toString();
-    quantityController.text = product.quantity.toString();
-    barcodeController.text = product.barcode;
+    nameController!.text = product!.name;
+    salePriceController!.text = product!.salePrice.toString();
+    costPriceController!.text = product!.costPrice.toString();
+    quantityController!.text = product!.quantity.toString();
+    barcodeController!.text = product!.barcode;
     newProduct.value = false;
-    FocusScopeNode currentFocus = FocusScope.of(Get.context);
+    FocusScopeNode currentFocus = FocusScope.of(Get.context!);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.focusedChild?.unfocus();
     }
-    formKey.currentState.validate();
+    formKey.currentState!.validate();
   }
 
   void clearInputs() {
-    nameController.text = '';
-    salePriceController.text = '';
-    costPriceController.text = '';
-    quantityController.text = '';
+    nameController!.text = '';
+    salePriceController!.text = '';
+    costPriceController!.text = '';
+    quantityController!.text = '';
+  }
+
+  Future<ProductModel> getProductInfo(barcode) async {
+    DocumentSnapshot querySnapshot = await reference.doc(barcode).get();
+    return ProductModel.fromJson(querySnapshot.data()!);
   }
 }

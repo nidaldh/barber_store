@@ -8,12 +8,13 @@ part of 'product.model.dart';
 
 ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
   return ProductModel(
-    json['barcode'] as String,
-    json['name'] as String,
-    (json['salePrice'] as num)?.toDouble(),
-    (json['costPrice'] as num)?.toDouble(),
-    json['quantity'] as int,
-  );
+    barcode: json['barcode'] as String,
+    name: json['name'] as String,
+    salePrice: (json['salePrice'] as num?)?.toDouble(),
+    costPrice: (json['costPrice'] as num?)?.toDouble(),
+    quantity: json['quantity'] as int,
+    storeQuantity: json['storeQuantity'] as int?,
+  )..error = json['error'] as String?;
 }
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -23,4 +24,6 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'salePrice': instance.salePrice,
       'costPrice': instance.costPrice,
       'quantity': instance.quantity,
+      'error': instance.error,
+      'storeQuantity': instance.storeQuantity,
     };
