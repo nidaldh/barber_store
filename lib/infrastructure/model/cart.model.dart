@@ -40,4 +40,10 @@ class CartModel {
   void cartHaveError() => haveError = true;
 
   bool cartHaveProduct() => products.isNotEmpty;
+
+  void clearCart() {
+    products.clear();
+    total = 0;
+    discount = 0;
+  }
 }

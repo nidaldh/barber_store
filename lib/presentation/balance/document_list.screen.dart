@@ -141,7 +141,6 @@ class ListScreen extends GetView<DocumentListController> {
                       ],
                     )),
                 GetBuilder<DocumentListController>(builder: (controller) {
-                  print(!controller.ready);
                   if (!controller.ready) {
                     return Center(child: LinearProgressIndicator());
                   }

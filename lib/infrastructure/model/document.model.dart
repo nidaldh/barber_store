@@ -5,7 +5,7 @@ part 'document.model.g.dart';
 enum Type { income, outcome }
 
 @JsonSerializable()
-class DocumentModel {
+class DocumentModel extends Comparable<DocumentModel> {
   String? id;
   Type type;
   String category;
@@ -35,5 +35,16 @@ class DocumentModel {
   @override
   String toString() {
     return 'Document{type: $type, category: $category, amount: $amount, date: $date, note: $note}';
+  }
+
+  @override
+  int compareTo(DocumentModel other) {
+    return dateMicroseconds.toInt() - other.dateMicroseconds.toInt();
+  }
+}
+
+extension on String {
+  int toInt() {
+    return int.parse(this);
   }
 }

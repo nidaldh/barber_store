@@ -5,11 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum Status { add, update }
-
 class DocumentListController extends GetxController {
   final Type type;
-  Status status = Status.add;
   String? currentId;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   late CollectionReference reference;
@@ -48,7 +45,6 @@ class DocumentListController extends GetxController {
   Future<void> getDocuments({filter = false}) async {
     ready = false;
     update();
-    reference.get();
     QuerySnapshot querySnapshot = await reference.get();
     documents.clear();
     total.value = 0;

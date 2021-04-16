@@ -55,7 +55,7 @@ class BalanceScreen extends GetView<BalanceController> {
               amount: controller.balance.value.amount != null
                   ? controller.balance.value.amount!
                   : 0,
-              route: '',
+              route: Routes.BALANCE_LIST,
               longPress: () => controller.recalculateBalance(),
             )),
       ],

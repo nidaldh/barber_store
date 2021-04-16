@@ -9,8 +9,7 @@ class CartControllerBinding extends Bindings {
     Get.put<StoreController>(
       StoreController(),
     );
-    Get.lazyPut<DocumentController>(
-      () => DocumentController(Type.income),
-    );
+    Get.lazyPut<DocumentController>(() => DocumentController(Type.income),
+        tag: 'cart');
   }
 }

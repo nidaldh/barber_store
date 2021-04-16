@@ -65,7 +65,8 @@ class CartController extends GetxController {
       }
       if (valid) {
         _addIncome();
-        cart.products.clear();
+        cart.clearCart();
+        discountAmountController.text = "0";
         SnackBarMessage.productSold();
       }
     }
@@ -120,8 +121,9 @@ class CartController extends GetxController {
 
   Future<void> _addIncome() async {
     var doc = await prepareDocument();
-    DocumentController documentController = Get.find<DocumentController>();
-    documentController.addDocument(doc: doc);
+    DocumentController documentController =
+        Get.find<DocumentController>(tag: 'cart');
+    documentController.addDocument(doc: doc, update: false);
   }
 
   Future<DocumentModel> prepareDocument() async {
