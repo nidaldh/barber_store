@@ -123,7 +123,7 @@ class CartController extends GetxController {
     var doc = await prepareDocument();
     DocumentController documentController =
         Get.find<DocumentController>(tag: 'cart');
-    documentController.addDocument(doc: doc, update: false);
+    documentController.addDocument(doc: doc, up: false);
   }
 
   Future<DocumentModel> prepareDocument() async {

@@ -60,6 +60,7 @@ class DocumentListController extends GetxController {
         total.value = total.value + tmpDocument.amount;
       }
     }
+    documents.sort();
     ready = true;
     update();
   }

@@ -54,14 +54,14 @@ class DocumentController extends GetxController {
     super.onInit();
   }
 
-  void addDocument({DocumentModel? doc, update: true}) async {
+  void addDocument({DocumentModel? doc, up: true}) async {
     if (doc == null) {
       doc = await prepareDocument();
     }
-    _addDocument(doc, update: update);
+    _addDocument(doc, up: up);
     document = doc;
     SnackBarMessage.addDocument();
-    if (update) {
+    if (up) {
       update();
     }
   }
@@ -96,7 +96,7 @@ class DocumentController extends GetxController {
         id: DateTime.now().microsecondsSinceEpoch.toString());
   }
 
-  void _addDocument(DocumentModel doc, {update: true}) {
+  void _addDocument(DocumentModel doc, {up: true}) {
     double amount = doc.amount;
 
     if (document != null && document!.amount > 0) {
@@ -107,7 +107,7 @@ class DocumentController extends GetxController {
     reference.doc(doc.id).set(doc.toJson()).then((value) {
       status = Status.update;
       currentId = doc.id;
-      if (update) {
+      if (up) {
         update();
       }
     });
