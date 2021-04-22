@@ -75,6 +75,14 @@ class SnackBarMessage {
         backgroundColor: Get.theme.snackBarTheme.backgroundColor,
       );
 
+  static balanceUpdated({duration = 1}) => Get.snackbar(
+        'Success',
+        'Balance recalculated successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: duration),
+        backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+      );
+
   static removeDocument() => Get.snackbar(
         'Success',
         'Document deleted successfully',

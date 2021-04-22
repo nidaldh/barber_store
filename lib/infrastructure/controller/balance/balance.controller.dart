@@ -2,6 +2,7 @@ import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/controller/balance/document_list.controller.dart';
 import 'package:barbers_store/infrastructure/model/balance.model.dart';
 import 'package:barbers_store/infrastructure/model/document.model.dart';
+import 'package:barbers_store/presentation/snackbar_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -51,7 +52,10 @@ class BalanceController extends GetxController {
   }
 
   void _updateBalance(BalanceModel balance) {
-    reference.doc(Constant.BALANCE_DOCUMENT).update(balance.toJson());
+    reference
+        .doc(Constant.BALANCE_DOCUMENT)
+        .update(balance.toJson())
+        .then((value) => SnackBarMessage.balanceUpdated(duration: 3));
   }
 
   void updateBalance(type, amount) {
