@@ -115,7 +115,7 @@ class DocumentController extends GetxController {
 
   Future<void> getDocument(id, {flag = false}) async {
     DocumentSnapshot querySnapshot = await reference.doc(id).get();
-    if (querySnapshot.data() != null && querySnapshot.data()!.isNotEmpty) {
+    if (querySnapshot.data() != null && querySnapshot.exists) {
       try {
         _chaneDocument(querySnapshot.data());
       } catch (e) {

@@ -56,7 +56,8 @@ class BalanceListController extends GetxController {
   Future<double> prepareDocument(querySnapshot, filter) async {
     double total = 0.0;
     for (QueryDocumentSnapshot data in querySnapshot.docs) {
-      DocumentModel tmpDocument = DocumentModel.fromJson(data.data());
+      DocumentModel tmpDocument =
+          DocumentModel.fromJson(data.data() as Map<String, dynamic>);
       if (filter) {
         if (filterCondition(tmpDocument)) {
           documents.add(tmpDocument);

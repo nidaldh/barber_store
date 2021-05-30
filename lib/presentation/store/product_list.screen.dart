@@ -39,7 +39,7 @@ class ProductListScreen extends GetView<StoreController> {
                               },
                               onLongPress: () {
                                 Get.find<CartController>().addProductToCart(
-                                    ProductModel.fromMap(doc.data()));
+                                    ProductModel.fromMap(doc.data() as Map));
                               },
                             ),
                           ))

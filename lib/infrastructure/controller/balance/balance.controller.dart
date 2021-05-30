@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/controller/balance/document_list.controller.dart';
 import 'package:barbers_store/infrastructure/model/balance.model.dart';
@@ -19,7 +21,7 @@ class BalanceController extends GetxController {
     reference.snapshots().listen((querySnapshot) {
       querySnapshot.docChanges.forEach((change) {
         try {
-          balance.value = BalanceModel.fromJson(change.doc.data()!.cast());
+          balance.value = BalanceModel.fromJson(change.doc.data()! as Map<String, dynamic>);
         } catch (e) {
           balance.value = BalanceModel(amount: 0);
         }

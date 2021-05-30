@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:barbers_store/infrastructure/constant/Constant.dart';
 import 'package:barbers_store/infrastructure/model/product.model.dart';
 import 'package:barbers_store/presentation/snackbar_message.dart';
@@ -124,7 +126,7 @@ class StoreController extends GetxController {
 
   Future<void> getProduct(barcode, {flag = false}) async {
     DocumentSnapshot querySnapshot = await reference.doc(barcode).get();
-    if (querySnapshot.data() != null && querySnapshot.data()!.isNotEmpty) {
+    if (querySnapshot.data() != null && querySnapshot.exists) {
       try {
         changeProduct(querySnapshot.data());
       } catch (e) {
@@ -172,6 +174,6 @@ class StoreController extends GetxController {
 
   Future<ProductModel> getProductInfo(barcode) async {
     DocumentSnapshot querySnapshot = await reference.doc(barcode).get();
-    return ProductModel.fromJson(querySnapshot.data()!);
+    return ProductModel.fromJson(querySnapshot.data()! as Map<String, dynamic>);
   }
 }
